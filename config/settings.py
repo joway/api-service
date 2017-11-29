@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'jet',
     'jet.dashboard',
     'django.contrib.admin',
-    'raven.contrib.django.raven_compat',
 
     'telegram',
 ]
