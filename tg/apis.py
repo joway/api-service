@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 global bot
 bot = telegram.Bot(token=os.environ.get('TELEGRAM_TOKEN'))
 
-url_validator = URLValidator(verify_exists=False)
+url_validator = URLValidator()
 
 
 class TelegramMsgSerializer(serializers.Serializer):
