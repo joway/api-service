@@ -2,6 +2,7 @@ import logging
 import os
 
 import telegram
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from rest_framework import viewsets, serializers, status
@@ -11,8 +12,8 @@ from rest_framework.response import Response
 logger = logging.getLogger(__name__)
 
 global bot
-bot = telegram.Bot(token=os.environ.get('TELEGRAM_TOKEN'))
-
+if not settings.DEBUG:
+    bot = telegram.Bot(token=os.environ.get('TELEGRAM_TOKEN', 'xxx'))
 url_validator = URLValidator()
 
 
@@ -40,5 +41,6 @@ class TelegramViewSet(viewsets.GenericViewSet):
         try:
             url_validator(text)
             self._sent_msg(message['chat']['id'], message['message_id'], text)
+            return Response(status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
